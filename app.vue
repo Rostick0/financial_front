@@ -1,5 +1,8 @@
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <!-- <NuxtWelcome /> -->
+  <UiForm />
 </template>
+
+<script lang="ts" setup>
+
+</script>
