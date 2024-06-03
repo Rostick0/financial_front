@@ -1,0 +1,19 @@
+@import "./reset";
+@import "./root";
+
+.container {
+  padding: 0 16px;
+}
+
+.wrapper {
+  background-color: var(--main-background);
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 24px 0;
+}

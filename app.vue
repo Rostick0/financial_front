@@ -1,8 +1,7 @@
 <template>
   <!-- <NuxtWelcome /> -->
-  <UiForm />
+  <!-- <UiForm /> -->
+  <NuxtPage />
 </template>
 
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
