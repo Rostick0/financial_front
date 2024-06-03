@@ -14,6 +14,7 @@ export default ({
   const open = () => {
     try {
       openModalNames.value[name] = true;
+      document.body.style.setProperty("overflow", "hidden");
     } catch (error) {
       console.error(error);
     }
@@ -22,6 +23,7 @@ export default ({
   const close = () => {
     try {
       openModalNames.value[name] = false;
+      document.body.style.setProperty("overflow", "auto");
     } catch (error) {
       console.error(error);
     }

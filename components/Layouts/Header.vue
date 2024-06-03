@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-const { open } = useModal({ name: "menu" });
+const { open } = useModal({ name: "main-menu" });
 </script>
 
 <style lang="scss" scoped>
