@@ -32,6 +32,13 @@ export default ({
   const toggle = () => {
     try {
       openModalNames.value[name] = !openModalNames.value[name];
+
+      document.body.style.setProperty(
+        "overflow",
+        document.body.style.getPropertyValue("overflow") === "auto"
+          ? "hidden"
+          : "auto"
+      );
     } catch (error) {
       console.error(error);
     }

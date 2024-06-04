@@ -22,7 +22,11 @@ export default {
 
   css: ["~/assets/scss/index.scss"],
 
-  modules: ["@vite-pwa/nuxt"],
+  modules: ["@vite-pwa/nuxt", "nuxt-lodash"],
+
+  lodash: {
+    prefix: "lodash",
+  },
 
   pwa: {
     manifest: {

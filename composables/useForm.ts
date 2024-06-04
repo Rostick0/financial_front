@@ -20,7 +20,7 @@ function useForm<
     successFunction: Function,
     errorFunction?: Function
   ) => {
-    return async (e: Event) => {
+    return async (e: Event): Promise<void> => {
       e.preventDefault();
 
       if (await v.value.$validate()) {

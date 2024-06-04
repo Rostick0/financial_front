@@ -5,7 +5,11 @@
       <br />
       <strong>330</strong>
     </template>
-    dsa
+    {{ urlSerachParams }}
+    <br />
+    {{ filters }}
+    <br />
+    <input className="input" placeholder="title" v-model="filters.name" />
   </NuxtLayout>
 </template>
 
@@ -13,6 +17,19 @@
 useHead({
   title: "Главная",
 });
+
+const {
+  filters,
+  // updateCurrentFilterValue,
+  urlSerachParams,
+  resetFilterValues,
+} = useFilter({
+  initialFilters: {
+    // "filterLIKE[name]": "123",
+    name: "123",
+  },
+});
+
 </script>
 
 <style lang="scss" scoped></style>
