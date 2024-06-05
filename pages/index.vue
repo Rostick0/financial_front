@@ -30,6 +30,19 @@ const {
   },
 });
 
+const { data, get } = await useApi({
+  apiName: "users",
+  apiMethod: "getAll",
+});
+
+await get();
+
+watch(
+  () => filters.value?.name,
+  (newV) => {
+    get();
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

@@ -36,7 +36,7 @@ const useApi = async ({
     const loading = useState(`loading-${id}`, () => false);
     const error = useState(`error-${id}`, () => false);
     const meta = useState(`meta-${id}`, () => []);
-    const [apiName, apiMethod] = name?.split(".") ?? [null, null];
+    const [apiName, apiMethod] = name?.split(".") ?? [undefined, undefined];
     let controller = null;
     const signal = useState(`signal${id}`, () => controller?.signal);
     //берем фильтр по имени чтобы не следить за изменениями в адресной строке

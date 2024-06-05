@@ -1,49 +1,71 @@
-// import { api } from "~/api/index.d.ts";
-import type api from "~/api";
+import type { typeApi, authMethods, apiMethods } from "~/api";
+import api from "~/api";
+// const name = {
+// login: () => {},
+// };
 
-// import type {} from api
 interface iUseApi {
-  name: api;
+  // name: `${keyof typeof users}`;
+  // ${keyof typeApi}.
+  apiName: keyof typeApi;
+  apiMethod: keyof authMethods | keyof apiMethods;
   //   params = {},
   //   filters = {},
   //   unwatchedFilters = {},
   //   requestParams = {},
   //   callback = null,
   init?: boolean;
-  //   afterCallback = () => {},
-  //   headers = {},
+  afterCallback?: Function;
+  // headers: HeadersInit;
   //   initialValue = null,
-  //   afterInit = () => {},
-  //   popup = true,
+  afterInit?: Function;
+  popup?: boolean;
 }
 
-function useApi({
-  name,
+export default async ({
+  apiName,
+  apiMethod,
   //   params = {},
   //   filters = {},
   //   unwatchedFilters = {},
   //   requestParams = {},
   //   callback = null,
   init = false,
-}: //   afterCallback = () => {},
-//   headers = {},
-//   initialValue = null,
-//   afterInit = () => {},
-//   popup = true,
-iUseApi) {
+  afterCallback = () => {},
+  // headers = {},
+  //   initialValue = null,
+  afterInit = () => {},
+  popup = true,
+}: iUseApi) => {
   const id = lodashUniqueId();
   const data = useState(`data-${id}`, () => null);
-  const loading = useState(`loading-${id}`, () => false);
+  const isLoading = useState<boolean | null>(`loading-${id}`, () => null);
   const error = useState(`error-${id}`, () => false);
   const meta = useState(`meta-${id}`, () => []);
-  const [apiName, apiMethod] = name?.split(".") ?? [null, null];
+
+  const get = async (): Promise<void> => {
+    try {
+      console.log(isLoading.value);
+      if (isLoading.value === false) return;
+      isLoading.value = false;
+
+      // setTimeout(() => {
+      //   console.log(51421);
+      // }, 2000);
+        isLoading.value = true;
+    } catch (e) {
+      console.error(e);
+      isLoading.value = false;
+    }
+  };
 
   return {
     data,
-    loading,
+    isLoading,
     error,
     meta,
+    get,
   };
-}
+};
 
-export default useApi;
+// export default useApi;

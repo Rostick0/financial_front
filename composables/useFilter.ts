@@ -12,8 +12,7 @@ export default ({
   withQueryParams = true,
   withInitQueryParams = true,
   debounceMs = 500,
-}: // debounceMs
-useFilterArguments = {}) => {
+}: useFilterArguments = {}) => {
   const id = lodashUniqueId();
   const router = useRouter();
   const filters = useState<initialFiltersItem>(
@@ -32,7 +31,7 @@ useFilterArguments = {}) => {
     });
   }
 
-  const resetFilterValues = (): void => {
+  const resetFilterValues = () => {
     filters.value = {};
 
     if (withQueryParams) router.replace({ query: {} });
@@ -57,7 +56,6 @@ useFilterArguments = {}) => {
 
   return {
     filters,
-    // updateCurrentFilterValue,
     resetFilterValues,
     urlSerachParams,
   };
