@@ -5,15 +5,20 @@
       <br />
       <strong>330</strong>
     </template>
-    {{ urlSerachParams }}
-    <br />
-    {{ filters }}
-    <br />
-    <input className="input" placeholder="title" v-model="filters.name" />
+    <div class="container">
+      <MainSwitchRange :nameModal="nameModal" />
+      <LazyMainChart />
+      <LazyUiModal :name="nameModal">
+        <MainDatapickerRange :nameModal="nameModal" />
+      </LazyUiModal>
+    </div>
+    <!-- <br /> -->
+    <!-- <input className="input" placeholder="title" v-model="filters.name" /> -->
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+const nameModal = "switchDatapicker";
 useHead({
   title: "Главная",
 });
@@ -36,13 +41,18 @@ const { data, get } = await useApi({
 });
 
 await get();
+const mainDateRange = useState<Date>("mainDateRange");
 
-watch(
-  () => filters.value?.name,
-  (newV) => {
-    get();
-  }
-);
+onBeforeUnmount(() => {
+  clearNuxtState("mainDateRange");
+});
+
+// watch(
+//   () => filters.value?.name,
+//   (newV) => {
+//     get();
+//   }
+// );
 </script>
 
 <style lang="scss" scoped></style>

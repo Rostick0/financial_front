@@ -3,7 +3,7 @@
   <!-- <UiForm /> -->
   <NuxtPage />
   <VitePwaManifest />
-  <MainMenu />
+  <Menu />
 </template>
 
 <script lang="ts" setup></script>

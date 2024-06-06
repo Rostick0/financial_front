@@ -1,4 +1,4 @@
-import type { typeApi, authMethods, apiMethods } from "~/api";
+import type { typeApi, apiMethods } from "~/api";
 import api from "~/api";
 // const name = {
 // login: () => {},
@@ -8,7 +8,7 @@ interface iUseApi {
   // name: `${keyof typeof users}`;
   // ${keyof typeApi}.
   apiName: keyof typeApi;
-  apiMethod: keyof authMethods | keyof apiMethods;
+  apiMethod: keyof apiMethods;
   //   params = {},
   //   filters = {},
   //   unwatchedFilters = {},
@@ -49,10 +49,13 @@ export default async ({
       if (isLoading.value === false) return;
       isLoading.value = false;
 
-      // setTimeout(() => {
-      //   console.log(51421);
-      // }, 2000);
-        isLoading.value = true;
+      await api?.[apiName]?.[apiMethod]?.(preParams, headers)?.then(
+        async (res: any) => {
+          // await getMeta(res);
+          // return res;
+        }
+      );
+      isLoading.value = true;
     } catch (e) {
       console.error(e);
       isLoading.value = false;
