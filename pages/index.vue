@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import moment from "moment";
+
 const nameModal = "switchDatapicker";
 useHead({
   title: "Главная",
@@ -41,7 +43,11 @@ const { data, get } = await useApi({
 });
 
 await get();
-const mainDateRange = useState<Date>("mainDateRange");
+
+const mainDateRange = useState<[Date, Date | null]>("mainDateRange", () => [
+  moment().startOf("week").toDate(),
+  moment().endOf("week").toDate(),
+]);
 
 onBeforeUnmount(() => {
   clearNuxtState("mainDateRange");

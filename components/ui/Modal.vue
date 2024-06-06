@@ -19,7 +19,6 @@ const { isOpen, close } = useModal({ name });
 
 <style lang="scss" scoped>
 .modal {
-  background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,6 +28,19 @@ const { isOpen, close } = useModal({ name });
   left: 0;
   width: 100%;
   height: 100%;
+
+  &::before {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.2s;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 
   &__inner {
     overflow: auto;

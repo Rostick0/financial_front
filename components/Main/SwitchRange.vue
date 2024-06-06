@@ -1,6 +1,6 @@
 <template>
   <div class="switch-range">
-    <button class="switch-range__btn">
+    <!-- <button class="switch-range__btn">
       <svg
         width="14"
         height="24"
@@ -13,12 +13,11 @@
           fill="white"
         />
       </svg>
-    </button>
+    </button> -->
     <button @click="open" class="switch-range__title">
-      321
-      <slot />
+      {{ currentRange }}
     </button>
-    <button class="switch-range__btn">
+    <!-- <button class="switch-range__btn">
       <svg
         width="14"
         height="24"
@@ -31,11 +30,13 @@
           fill="white"
         />
       </svg>
-    </button>
+    </button> -->
   </div>
 </template>
 
 <script lang="ts" setup>
+// import moment from "moment";
+
 const { nameModal } = defineProps({
   nameModal: {
     type: String,
@@ -45,6 +46,19 @@ const { nameModal } = defineProps({
 
 const { open } = useModal({
   name: nameModal,
+});
+
+const mainDateRange = useState<[Date, Date | null]>("mainDateRange");
+
+const currentRange = computed(() => {
+  const startRange = new Date(mainDateRange.value[0]).toLocaleDateString();
+  const endRange = mainDateRange.value?.[1]
+    ? new Date(mainDateRange.value?.[1]).toLocaleDateString()
+    : null;
+
+  return endRange && startRange !== endRange
+    ? `${startRange} - ${endRange}`
+    : startRange;
 });
 </script>
 
