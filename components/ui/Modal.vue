@@ -1,9 +1,11 @@
 <template>
-  <div v-if="isOpen" @click.prevent="close" class="modal">
-    <div class="modal__inner">
-      <slot />
+  <Transition>
+    <div v-if="isOpen" @click.prevent="close" class="modal">
+      <div class="modal__inner">
+        <slot />
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script lang="ts" setup>
@@ -36,7 +38,7 @@ const { isOpen, close } = useModal({ name });
     position: absolute;
     left: 0;
     top: 0;
-    transition: 0.2s;
+    transition: 0.5s;
     width: 100%;
     height: 100%;
     z-index: -1;
@@ -46,5 +48,27 @@ const { isOpen, close } = useModal({ name });
     overflow: auto;
     max-height: 100%;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+
+  &::before {
+    transition: opacity 0.5s ease;
+  }
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+
+  &::before {
+    opacity: 0;
+  }
+
+  // .menu__inner {
+  //   transform: translateX(-150%);
+  // }
 }
 </style>

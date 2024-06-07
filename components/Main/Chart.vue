@@ -24,8 +24,6 @@ import {
 } from "chart.js";
 Chart.register(CategoryScale);
 
-// Chart.
-
 const props = defineProps({
   data: Object,
   limit: {
@@ -36,10 +34,11 @@ const props = defineProps({
 
 const data = computed(() => ({
   //   labels: labels.value,
-
   datasets: [
     {
-      borderColor: "transparent",
+      borderColor: "rgb(15, 16, 19)",
+      // borderRadius: 12,
+      borderWidth: 6,
       backgroundColor: ["red", "blue", "white"],
       //   backgroundColor: "#009639",
       data: [1, 2, 3],
@@ -79,7 +78,6 @@ const plugins = computed(() => [
       ctx.fillStyle = "#fff";
       ctx.font = "32px Arial, Helvetica, sans-serif";
       // var(--font-family)
-      //
       ctx.fillText("100 312", width / 2, height / 2 + 16);
       ctx.save();
     },
