@@ -1,4 +1,18 @@
+import type { NitroFetchOptions, NitroFetchRequest } from "nitropack";
 import { getErrorData } from "./base";
+
+type bodyType = Record<string, any> | null | undefined;
+
+interface IInitialParams {
+  baseURL: string;
+  headers: {
+    Authorization?: string;
+  };
+}
+
+interface IGetParams extends NitroFetchOptions<string, "get"> {
+  signal?: AbortSignal | null | undefined;
+}
 
 export default function useFetcher() {
   const token = useCookie("accessToken", { maxAge: 60 * 60 * 24 * 7 }).value;
@@ -8,7 +22,7 @@ export default function useFetcher() {
   const initialParams = {
     baseURL: baseUrl,
     headers: {},
-  };
+  } as IInitialParams;
 
   if (token && token !== "") {
     initialParams.headers.Authorization = `Bearer ${token}`;
@@ -17,15 +31,15 @@ export default function useFetcher() {
   const apiFetch = $fetch.create(initialParams);
 
   return {
-    get: async (url: string, params = {}, headers = {}) => {
-      let signal = params.signal;
-      delete params.signal;
+    get: async (url: string, params: IGetParams = {}, headers = {}) => {
+      let signal = params?.signal;
+      delete params?.signal;
       let opts = {
         signal: signal,
         method: "GET",
         params,
         headers: { ...initialParams?.headers, ...headers },
-      };
+      } as NitroFetchOptions<string, "get">;
 
       return await apiFetch(url, opts)
         .then((res) => {
@@ -35,7 +49,11 @@ export default function useFetcher() {
           return getErrorData(error, signal?.aborted)?.popup();
         });
     },
-    post: async (url: string, body, config = {}) => {
+    post: async (
+      url: string,
+      body: bodyType,
+      config = {} as NitroFetchOptions<string, "post">
+    ) => {
       const headers = {
         ...initialParams?.headers,
         ...config?.headers,
@@ -59,7 +77,7 @@ export default function useFetcher() {
           return res;
         });
     },
-    patch: async (url, body, config = {}) => {
+    patch: async (url: string, body: bodyType, config = {}) => {
       return await apiFetch(url, { method: "PATCH", body, ...config })
         .then((res) => {
           return res;
@@ -70,7 +88,7 @@ export default function useFetcher() {
           return res;
         });
     },
-    put: async (url, body, config = {}) => {
+    put: async (url: string, body: bodyType, config = {}) => {
       return await apiFetch(url, { method: "PUT", body, ...config })
         .then((res) => {
           return res;
@@ -81,7 +99,7 @@ export default function useFetcher() {
           return res;
         });
     },
-    delete: async (url, config = {}) => {
+    delete: async (url: string, config = {}) => {
       return await apiFetch(url, { method: "DELETE", ...config })
         .then((res) => {
           return res;

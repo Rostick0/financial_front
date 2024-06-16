@@ -25,7 +25,7 @@ const { open } = useModal({ name: "main-menu" });
 
   &__container {
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: space-between;
     padding-top: 16px;
     padding-bottom: 16px;

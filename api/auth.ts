@@ -1,10 +1,10 @@
 import useFetcher from "../utils/fetch";
 
 interface authMethods {
-  login?: (...args: Array<any>) => Promise<any>;
-  register?: (...args: Array<any>) => Promise<any>;
-  logout?: (...args: Array<any>) => Promise<any>;
-  me?: (...args: Array<any>) => Promise<any>;
+  login: (...args: Array<any>) => Promise<any>;
+  register: (...args: Array<any>) => Promise<any>;
+  logout: (...args: Array<any>) => Promise<any>;
+  me: (...args: Array<any>) => Promise<any>;
 }
 
 export default <authMethods>{

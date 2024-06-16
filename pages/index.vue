@@ -1,9 +1,30 @@
 <template>
   <NuxtLayout>
     <template #title>
-      <span>Итого:</span>
-      <br />
-      <strong>330</strong>
+      <div class="main-page-header">
+        <span>Итого:</span>
+        <strong>330</strong>
+        <div class="main-page-header__switch">
+          <button
+            @click="switchHeader = 'expenses'"
+            class="main-page-header__switch_btn"
+            :class="{
+              active: switchHeader === 'expenses',
+            }"
+          >
+            Расходы
+          </button>
+          <button
+            @click="switchHeader = 'income'"
+            class="main-page-header__switch_btn"
+            :class="{
+              active: switchHeader === 'income',
+            }"
+          >
+            Доходы
+          </button>
+        </div>
+      </div>
     </template>
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
@@ -25,6 +46,8 @@ useHead({
   title: "Главная",
 });
 
+const switchHeader = ref<"expenses" | "income">("expenses");
+
 const {
   filters,
   // updateCurrentFilterValue,
@@ -37,12 +60,12 @@ const {
   },
 });
 
-const { data, get } = await useApi({
-  apiName: "users",
-  apiMethod: "getAll",
-});
+// const { data, get } = await useApi({
+//   apiName: "users",
+//   apiMethod: "getAll",
+// });
 
-await get();
+// await get();
 
 const mainDateRange = useState<[Date, Date | null]>("mainDateRange", () => [
   moment().startOf("week").toDate(),
@@ -61,4 +84,42 @@ onBeforeUnmount(() => {
 // );
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main-page {
+  &-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 6px;
+    padding-bottom: 10px;
+
+    &__switch {
+      display: flex;
+      column-gap: 20px;
+
+      &_btn {
+        color: var(--color-white);
+        font-size: 16px;
+        position: relative;
+
+        &::before {
+          background-color: var(--color-white);
+          content: "";
+          position: absolute;
+          bottom: 0;
+          transform: translateY(150%);
+          transition: 0.3s;
+          width: 0;
+          height: 2px;
+        }
+
+        &.active {
+          &::before {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

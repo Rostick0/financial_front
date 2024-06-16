@@ -1,10 +1,16 @@
 <template>
-  <div></div>
+  <NuxtLayout>
+    <div></div>
+  </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
   layout: "auth",
+});
+
+useHead({
+  title: "Регистрация",
 });
 </script>
 

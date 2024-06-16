@@ -1,13 +1,15 @@
 <template>
   <div class="chart">
-    <LazyClientOnly>
-      <Doughnut
-        class="chart-doughnut"
-        :data="data"
-        :options="options"
-        :plugins="plugins"
-      />
-    </LazyClientOnly>
+    <div class="chart__inner">
+      <LazyClientOnly>
+        <Doughnut
+          class="chart-doughnut"
+          :data="data"
+          :options="options"
+          :plugins="plugins"
+        />
+      </LazyClientOnly>
+    </div>
   </div>
 </template>
 
@@ -87,9 +89,14 @@ const plugins = computed(() => [
 
 <style lang="scss" scoped>
 .chart {
-  padding-top: 100%;
-  position: relative;
-  width: 100%;
+  margin: 0 auto;
+  max-width: 500px;
+
+  &__inner {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+  }
 
   &-doughnut {
     position: absolute;

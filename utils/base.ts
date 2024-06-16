@@ -11,7 +11,7 @@ export const warningPopup = (message: string = "Упс, что-то пошло �
   }
 };
 
-export function getErrorData(error: any, aborted: any) {
+export function getErrorData(error: any, aborted?: any) {
   try {
     if (aborted) {
       return;
