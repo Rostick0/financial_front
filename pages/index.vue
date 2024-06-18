@@ -30,6 +30,7 @@
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
       <LazyMainChart :data="data" />
+      <Todos :todos="data" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
@@ -42,7 +43,7 @@
 <script lang="ts" setup>
 import moment from "moment";
 import type { IUser } from "~/composables/useAuth";
-import type { ITodoView } from "~/interfaces/models/todo";
+import type { ITodoPeriodView } from "~/interfaces/models/todo";
 
 const nameModal = "switchDatapicker";
 useHead({
@@ -72,22 +73,24 @@ const {
 watch(
   () => switchHeaderMain.value,
   lodashDebounce((nV: TypeSwitchHeaderMain) => {
-    console.log(nV);
-    filters.value.TypeCategory = nV;
-    // filters.value.TypeCategory = nV;
+    // console.log(nV);
+    if (filters.value?.TypeCategory) {
+      filters.value.TypeCategory = nV;
+    }
   }, 400)
 );
 
-const { data, get } = await useApi<ITodoView>({
+const { data, get } = await useApi<ITodoPeriodView>({
   apiName: "todos",
   apiMethod: "getAll",
   filters,
 });
 
-onMounted(async () => {
-  await get();
-  console.log(data.value);
-});
+await get({ type: "Period" });
+
+// onMounted(async () => {
+//   console.log(data.value);
+// });
 
 const user = useState<IUser>("user");
 

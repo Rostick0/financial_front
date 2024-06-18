@@ -39,7 +39,7 @@ const data = computed(() => ({
       borderColor: "rgb(15, 16, 19)",
       // borderRadius: 12,
       borderWidth: 6,
-      backgroundColor: ["red", "blue", "white"],
+      backgroundColor: props.data?.map((item) => item.category.color),
       //   backgroundColor: "#009639",
       // data: props.data.reduce(() => {}, 0),
       data: props.data?.map((item) => item.sum),
@@ -80,7 +80,9 @@ const plugins = computed(() => [
       ctx.font = "32px Arial, Helvetica, sans-serif";
       // var(--font-family)
       ctx.fillText(
-        props.data?.reduce((a, b) => a + b.sum, 0).toLocaleString() ?? "",
+        props.data
+          ?.reduce((sum, current) => sum + current.sum, 0)
+          .toLocaleString() ?? "0",
         width / 2,
         height / 2 + 16
       );

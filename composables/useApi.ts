@@ -56,7 +56,7 @@ export default async <T>({
         // ...requestParams,
         ...rParams,
         params: {
-          // ...params,
+          ...params,
           // ...unwatchedFilters.value,
           ...filters?.value,
           ...filter,
