@@ -24,15 +24,13 @@ import {
   type DoughnutControllerChartOptions,
   type Plugin,
 } from "chart.js";
+import type { ITodoView } from "~/interfaces/models/todo";
 Chart.register(CategoryScale);
 
-const props = defineProps({
-  data: Object,
-  limit: {
-    type: Number,
-    default: 30,
-  },
-});
+const props = defineProps<{
+  data: ITodoView[] | null;
+  limit?: Number;
+}>();
 
 const data = computed(() => ({
   //   labels: labels.value,
@@ -43,7 +41,8 @@ const data = computed(() => ({
       borderWidth: 6,
       backgroundColor: ["red", "blue", "white"],
       //   backgroundColor: "#009639",
-      data: [1, 2, 3],
+      // data: props.data.reduce(() => {}, 0),
+      data: props.data?.map((item) => item.sum),
     },
   ],
 })) as ComputedRef<ChartData<"doughnut", number[], unknown>>;
@@ -80,7 +79,11 @@ const plugins = computed(() => [
       ctx.fillStyle = "#fff";
       ctx.font = "32px Arial, Helvetica, sans-serif";
       // var(--font-family)
-      ctx.fillText("100 312", width / 2, height / 2 + 16);
+      ctx.fillText(
+        props.data?.reduce((a, b) => a + b.sum, 0).toLocaleString() ?? "",
+        width / 2,
+        height / 2 + 16
+      );
       ctx.save();
     },
   },

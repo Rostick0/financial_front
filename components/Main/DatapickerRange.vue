@@ -2,6 +2,7 @@
   <div class="datapicker-range">
     <Datepicker
       v-model="mainDateRange"
+      dark
       range
       inline
       format="MM/dd/yyyy - MM/dd/yyyy"
@@ -33,5 +34,27 @@ const mainDateRange = useState<ModelValue>("mainDateRange");
 
 <style lang="scss" scoped>
 .datapicker-range {
+}
+</style>
+
+<style lang="scss">
+.datapicker-range {
+  .dp__menu {
+    background-color: var(--main-background);
+    border-color: var(--color-white);
+    // background-color: red;
+  }
+
+  .dp__active_date,
+  .dp__range_start,
+  .dp__range_end {
+    background-color: var(--color-blue);
+  }
+
+  .dp__action_button {
+    background-color: var(--color-blue);
+    font-family: var(--font-family);
+    padding: 6px;
+  }
 }
 </style>

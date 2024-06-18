@@ -35,7 +35,7 @@ export default function useFetcher() {
       let signal = params?.signal;
       delete params?.signal;
       let opts = {
-        signal: signal,
+        signal,
         method: "GET",
         params,
         headers: { ...initialParams?.headers, ...headers },

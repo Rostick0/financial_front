@@ -6,4 +6,12 @@
   <Menu />
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import moment from "moment";
+
+moment.updateLocale("ru", {
+  week: {
+    dow: 1,
+  },
+});
+</script>

@@ -8,8 +8,8 @@ interface authMethods {
 }
 
 export default <authMethods>{
-  login: async (data) => useFetcher().post(`/auth/login`, data),
-  register: async (data) => useFetcher().post(`/auth/register`, data),
-  logout: async (data) => useFetcher().post(`/auth/login`, data),
-  me: async (params, headers) => useFetcher().get(`/auth/me`, params, headers),
+  login: async (data) => useFetcher().post(`/Auth/Login`, data),
+  register: async (data) => useFetcher().post(`/Auth/Register`, data),
+  logout: async (data) => useFetcher().post(`/Auth/Logout`, data),
+  me: async (params, headers) => useFetcher().get(`/Auth/Me`, params, headers),
 };

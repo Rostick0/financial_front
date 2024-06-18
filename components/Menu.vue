@@ -60,8 +60,7 @@ const menuList = [
   },
 ];
 
-const { logout } = await useAuth();
-
+const { user, logout } = await useAuth();
 // const logout = () => {
 
 //   navigateTo("/login");

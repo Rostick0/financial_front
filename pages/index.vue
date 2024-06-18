@@ -1,24 +1,25 @@
 <template>
   <NuxtLayout>
     <template #title>
+      <!-- {{ user }} -->
       <div class="main-page-header">
         <span>Итого:</span>
-        <strong>330</strong>
+        <strong>{{ user?.balance ?? 0 }}</strong>
         <div class="main-page-header__switch">
           <button
-            @click="switchHeader = 'expenses'"
+            @click="switchHeaderMain = 'expenses'"
             class="main-page-header__switch_btn"
             :class="{
-              active: switchHeader === 'expenses',
+              active: switchHeaderMain === 'expenses',
             }"
           >
             Расходы
           </button>
           <button
-            @click="switchHeader = 'income'"
+            @click="switchHeaderMain = 'income'"
             class="main-page-header__switch_btn"
             :class="{
-              active: switchHeader === 'income',
+              active: switchHeaderMain === 'income',
             }"
           >
             Доходы
@@ -28,7 +29,7 @@
     </template>
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
-      <LazyMainChart />
+      <LazyMainChart :data="data" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
@@ -40,32 +41,55 @@
 
 <script lang="ts" setup>
 import moment from "moment";
+import type { IUser } from "~/composables/useAuth";
+import type { ITodoView } from "~/interfaces/models/todo";
 
 const nameModal = "switchDatapicker";
 useHead({
   title: "Главная",
 });
 
-const switchHeader = ref<"expenses" | "income">("expenses");
+type TypeSwitchHeaderMain = "expenses" | "income";
+
+const switchHeaderMain = useState<TypeSwitchHeaderMain>(
+  "switchHeaderMain",
+  () => (useRoute().query?.TypeCategory as TypeSwitchHeaderMain) ?? "expenses"
+);
 
 const {
   filters,
   // updateCurrentFilterValue,
   urlSerachParams,
   resetFilterValues,
-} = useFilter({
+} = useFilter<{ TypeCategory: TypeSwitchHeaderMain }>({
   initialFilters: {
     // "filterLIKE[name]": "123",
-    name: "123",
+    // name: "123",
+    TypeCategory: switchHeaderMain.value,
   },
 });
 
-// const { data, get } = await useApi({
-//   apiName: "users",
-//   apiMethod: "getAll",
-// });
+watch(
+  () => switchHeaderMain.value,
+  lodashDebounce((nV: TypeSwitchHeaderMain) => {
+    console.log(nV);
+    filters.value.TypeCategory = nV;
+    // filters.value.TypeCategory = nV;
+  }, 400)
+);
 
-// await get();
+const { data, get } = await useApi<ITodoView>({
+  apiName: "todos",
+  apiMethod: "getAll",
+  filters,
+});
+
+onMounted(async () => {
+  await get();
+  console.log(data.value);
+});
+
+const user = useState<IUser>("user");
 
 const mainDateRange = useState<[Date, Date | null]>("mainDateRange", () => [
   moment().startOf("week").toDate(),

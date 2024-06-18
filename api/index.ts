@@ -1,6 +1,7 @@
+import todos from "./modules/todos";
 import users from "./modules/users";
 
-type apiNames = "users";
+type apiNames = "users" | "todos";
 
 interface apiMethods {
   get?: (...args: Array<any>) => Promise<any>;
@@ -15,7 +16,7 @@ type typeApi = Record<apiNames, apiMethods>;
 // Record<apiMethods, (...args: Array<any>) => Promise<any>>
 // [_: apiMethods]: (...args: Array<any>) => Promise<any> | never;
 const api: typeApi = {
-  // auth,
+  todos,
   users,
 };
 

@@ -2,9 +2,10 @@ import type { RouteLocationRaw } from "vue-router";
 // import { NavigateToOptions } from "vue-router";
 import auth from "~/api/auth";
 
-interface IUser {
+export interface IUser {
   id: number;
   email: string;
+  balance: number;
 }
 
 interface IUserserGenerateToken {
@@ -66,11 +67,12 @@ export default async () => {
           //     // extends:
           //     //   "contacts,country,image,flat_owners.user,alert,collection_relats.collection",
           //   },
+          {},
           { Authorization: `Bearer ${accessToken.value}` }
         )
         .then((resp) => {
-          if (!resp?.error && resp?.data) {
-            user.value = resp.data;
+          if (!resp?.error && resp) {
+            user.value = resp;
           }
         });
     } catch (error) {

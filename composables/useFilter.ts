@@ -1,13 +1,13 @@
-type initialFiltersItem = Record<string, string> | undefined;
+export type initialFiltersItem = Record<string, string> | undefined;
 
-interface useFilterArguments {
+export interface useFilterArguments {
   initialFilters?: initialFiltersItem;
   withQueryParams?: boolean;
   withInitQueryParams?: boolean;
   debounceMs?: number;
 }
 
-export default ({
+export default <T>({
   initialFilters = {},
   withQueryParams = true,
   withInitQueryParams = true,
@@ -15,7 +15,7 @@ export default ({
 }: useFilterArguments = {}) => {
   const id = lodashUniqueId();
   const router = useRouter();
-  const filters = useState<initialFiltersItem>(
+  const filters = useState<initialFiltersItem | T>(
     "filters-" + id,
     () => initialFilters
   );
