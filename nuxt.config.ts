@@ -3,7 +3,7 @@ export default {
   devtools: { enabled: true },
   app: {
     head: {
-      title: "Car",
+      title: "Мои финансы",
       htmlAttrs: {
         lang: "ru-RU",
       },

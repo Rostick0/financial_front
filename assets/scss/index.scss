@@ -17,3 +17,14 @@
   flex-grow: 1;
   padding: 24px 0;
 }
+
+.form-block {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.error {
+  color: var(--color-red);
+  font-size: 15px;
+}

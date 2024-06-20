@@ -31,6 +31,9 @@
       <MainSwitchRange :nameModal="nameModal" />
       <LazyMainChart :data="data" />
       <Todos :todos="data" />
+      <NuxtLink class="button-bottom-add" to="/todos/create">
+        <UiButton class="button-bottom-add__inner"></UiButton>
+      </NuxtLink>
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
@@ -73,7 +76,6 @@ const {
 watch(
   () => switchHeaderMain.value,
   lodashDebounce((nV: TypeSwitchHeaderMain) => {
-    // console.log(nV);
     if (filters.value?.TypeCategory) {
       filters.value.TypeCategory = nV;
     }
@@ -87,10 +89,6 @@ const { data, get } = await useApi<ITodoPeriodView>({
 });
 
 await get({ type: "Period" });
-
-// onMounted(async () => {
-//   console.log(data.value);
-// });
 
 const user = useState<IUser>("user");
 
@@ -146,6 +144,37 @@ onBeforeUnmount(() => {
           }
         }
       }
+    }
+  }
+}
+
+.button-bottom-add {
+  display: flex;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 32px;
+    height: 32px;
+
+    &::before,
+    &::after {
+      background-color: var(--color-white);
+      border-radius: 2px;
+      content: "";
+      display: block;
+      position: absolute;
+      width: calc(100% - 12px);
+      height: 2px;
+    }
+
+    &::before {
+      transform: rotate(90deg);
     }
   }
 }

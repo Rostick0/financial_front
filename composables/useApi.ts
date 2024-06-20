@@ -95,6 +95,12 @@ export default async <T>({
     }
   });
 
+  if (init) {
+    onMounted(async () => {
+      await get({ ...params, ...filters });
+    });
+  }
+
   return {
     data,
     isLoading,

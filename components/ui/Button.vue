@@ -10,6 +10,8 @@
 .btn {
   background-color: var(--color-blue);
   color: var(--color-white);
+  border-radius: 6px;
   display: flex;
+  padding: 6px;
 }
 </style>
