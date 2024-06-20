@@ -5,11 +5,19 @@ import categories from "./modules/categories";
 type apiNames = "categories" | "todos" | "users";
 
 interface apiMethods {
-  get?: (...args: Array<any>) => Promise<any>;
-  getAll?: (...args: Array<any>) => Promise<any>;
-  create?: (...args: Array<any>) => Promise<any>;
-  update?: (...args: Array<any>) => Promise<any>;
-  delete?: (...args: Array<any>) => Promise<any>;
+  get?: ({ id, params }: { id: number; params: any }) => Promise<any>;
+  getAll?: ({ params }: { params: any }) => Promise<any>;
+  create?: ({ data }: { data: any }) => Promise<any>;
+  update?: ({
+    id,
+    data,
+    params,
+  }: {
+    id: number;
+    data: any;
+    params: any;
+  }) => Promise<any>;
+  delete?: ({ id, params }: { id: number; params: any }) => Promise<any>;
 }
 
 type typeApi = Record<apiNames, apiMethods>;

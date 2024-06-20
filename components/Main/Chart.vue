@@ -39,7 +39,7 @@ const data = computed(() => ({
       borderColor: "rgb(15, 16, 19)",
       // borderRadius: 12,
       borderWidth: 6,
-      backgroundColor: props.data?.map((item) => item.category.color),
+      backgroundColor: props.data?.map((item) => item?.category?.color),
       //   backgroundColor: "#009639",
       // data: props.data.reduce(() => {}, 0),
       data: props.data?.map((item) => item.sum),

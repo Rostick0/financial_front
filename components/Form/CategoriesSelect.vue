@@ -3,18 +3,16 @@
     <div class="categories-select__label">Выберите категорию</div>
     <div class="categories-select__list">
       <div
-        v-for="item in data"
+        v-for="item in dataSelectedType"
         :key="item.id"
         class="categories-select__item"
         :class="{
           active: item.id === selectedId,
         }"
         @click="selectedId = item.id"
+        :style="{ '--ui-color': item.color }"
       >
-        <div
-          class="categories-select__icon"
-          :style="{ background: item.color }"
-        ></div>
+        <div class="categories-select__icon"></div>
         <div class="categories-select__title">{{ item.title }}</div>
       </div>
     </div>
@@ -26,22 +24,34 @@
 </template>
 
 <script lang="ts" setup>
-import type { ICategoryView } from "~/interfaces/models/category";
+import type {
+  ICategoryView,
+  EnumCategoryType,
+} from "~/interfaces/models/category";
 
 const emits = defineEmits(["update:modelValue"]);
 
 const props = defineProps<{
   error?: Ref<string> | string;
-  modelValue?: number;
+  modelValue?: number | null;
+  type?: EnumCategoryType;
 }>();
 
-const selectedId = ref<number | undefined>(props.modelValue);
+const selectedId = ref<number | null | undefined>(props.modelValue);
 
-const { data } = await useApi<ICategoryView>({
+const { data, get } = await useApi<ICategoryView>({
   apiName: "categories",
   apiMethod: "getAll",
-  init: true,
 });
+
+await get();
+
+// console.log(data.value[0]);
+const dataSelectedType = computed(() =>
+  props.type !== undefined
+    ? data.value?.filter((item: ICategoryView) => item?.type === props.type)
+    : data.value
+);
 
 watch(
   () => selectedId.value,
@@ -60,12 +70,24 @@ watch(
   }
 
   &__item {
+    cursor: pointer;
     display: flex;
     align-items: center;
     column-gap: 8px;
+    transition: 0.3s;
+    width: fit-content;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &.active {
+      color: var(--ui-color);
+    }
   }
 
   &__icon {
+    background-color: var(--ui-color);
     border-radius: 50%;
     flex-shrink: 0;
     width: 16px;

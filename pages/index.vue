@@ -2,30 +2,9 @@
   <NuxtLayout>
     <template #title>
       <!-- {{ user }} -->
-      <div class="main-page-header">
-        <span>Итого:</span>
-        <strong>{{ user?.balance ?? 0 }}</strong>
-        <div class="main-page-header__switch">
-          <button
-            @click="switchHeaderMain = 'expenses'"
-            class="main-page-header__switch_btn"
-            :class="{
-              active: switchHeaderMain === 'expenses',
-            }"
-          >
-            Расходы
-          </button>
-          <button
-            @click="switchHeaderMain = 'income'"
-            class="main-page-header__switch_btn"
-            :class="{
-              active: switchHeaderMain === 'income',
-            }"
-          >
-            Доходы
-          </button>
-        </div>
-      </div>
+      <HeaderMain>
+        <SwitchTypeTodo v-model="switchHeaderMain" />
+      </HeaderMain>
     </template>
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
@@ -46,6 +25,7 @@
 <script lang="ts" setup>
 import moment from "moment";
 import type { IUser } from "~/composables/useAuth";
+import type { TypeCategory } from "~/interfaces/models/category";
 import type { ITodoPeriodView } from "~/interfaces/models/todo";
 
 const nameModal = "switchDatapicker";
@@ -53,11 +33,9 @@ useHead({
   title: "Главная",
 });
 
-type TypeSwitchHeaderMain = "expenses" | "income";
-
-const switchHeaderMain = useState<TypeSwitchHeaderMain>(
+const switchHeaderMain = useState<TypeCategory>(
   "switchHeaderMain",
-  () => (useRoute().query?.TypeCategory as TypeSwitchHeaderMain) ?? "expenses"
+  () => (useRoute().query?.TypeCategory as TypeCategory) ?? "Expenses"
 );
 
 const {
@@ -65,7 +43,7 @@ const {
   // updateCurrentFilterValue,
   urlSerachParams,
   resetFilterValues,
-} = useFilter<{ TypeCategory: TypeSwitchHeaderMain }>({
+} = useFilter<{ TypeCategory: TypeCategory }>({
   initialFilters: {
     // "filterLIKE[name]": "123",
     // name: "123",
@@ -75,7 +53,7 @@ const {
 
 watch(
   () => switchHeaderMain.value,
-  lodashDebounce((nV: TypeSwitchHeaderMain) => {
+  lodashDebounce((nV: TypeCategory) => {
     if (filters.value?.TypeCategory) {
       filters.value.TypeCategory = nV;
     }
@@ -111,41 +89,9 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .main-page {
-  &-header {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    row-gap: 6px;
-    padding-bottom: 10px;
+  // &-header {
 
-    &__switch {
-      display: flex;
-      column-gap: 20px;
-
-      &_btn {
-        color: var(--color-white);
-        font-size: 16px;
-        position: relative;
-
-        &::before {
-          background-color: var(--color-white);
-          content: "";
-          position: absolute;
-          bottom: 0;
-          transform: translateY(150%);
-          transition: 0.3s;
-          width: 0;
-          height: 2px;
-        }
-
-        &.active {
-          &::before {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
+  // }
 }
 
 .button-bottom-add {

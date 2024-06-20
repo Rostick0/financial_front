@@ -1,12 +1,14 @@
-export enum TypeCategoryEnum {
+export enum EnumCategoryType {
   "Expenses",
   "Income",
 }
 
+export type TypeCategory = keyof typeof EnumCategoryType;
+
 export interface ICategoryView {
   id: number;
   title: string;
-  type: TypeCategoryEnum;
+  type: EnumCategoryType;
   iconUrl?: string;
   color: string;
 }
