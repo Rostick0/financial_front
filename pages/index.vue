@@ -1,7 +1,6 @@
 <template>
   <NuxtLayout>
     <template #title>
-      <!-- {{ user }} -->
       <HeaderMain>
         <SwitchTypeTodo v-model="switchHeaderMain" />
       </HeaderMain>
@@ -17,8 +16,6 @@
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
     </div>
-    <!-- <br /> -->
-    <!-- <input className="input" placeholder="title" v-model="filters.name" /> -->
   </NuxtLayout>
 </template>
 
@@ -38,16 +35,35 @@ const switchHeaderMain = useState<TypeCategory>(
   () => (useRoute().query?.TypeCategory as TypeCategory) ?? "Expenses"
 );
 
-const {
-  filters,
-  // updateCurrentFilterValue,
-  urlSerachParams,
-  resetFilterValues,
-} = useFilter<{ TypeCategory: TypeCategory }>({
+const mainDateRange = useState<[Date, Date | null]>("mainDateRange", () => [
+  moment().startOf("week").toDate(),
+  moment().endOf("week").toDate(),
+]);
+
+onBeforeUnmount(() => {
+  clearNuxtState("mainDateRange");
+});
+
+watch(
+  () => mainDateRange.value,
+  (newV) => {
+    if (filters.value?.MinDate)
+      filters.value.MinDate = moment(newV?.[0]).toISOString();
+    if (filters.value?.MaxDate)
+      filters.value.MaxDate = moment(newV?.[1]).toISOString();
+  }
+);
+
+const { filters, urlSerachParams, resetFilterValues } = useFilter<{
+  TypeCategory: TypeCategory;
+  MinDate: Date;
+  MaxDate: Date;
+}>({
   initialFilters: {
-    // "filterLIKE[name]": "123",
     // name: "123",
     TypeCategory: switchHeaderMain.value,
+    MinDate: moment(mainDateRange.value?.[0]).toISOString(),
+    MaxDate: moment(mainDateRange.value?.[1]).toISOString(),
   },
 });
 
@@ -67,24 +83,6 @@ const { data, get } = await useApi<ITodoPeriodView>({
 });
 
 await get({ type: "Period" });
-
-const user = useState<IUser>("user");
-
-const mainDateRange = useState<[Date, Date | null]>("mainDateRange", () => [
-  moment().startOf("week").toDate(),
-  moment().endOf("week").toDate(),
-]);
-
-onBeforeUnmount(() => {
-  clearNuxtState("mainDateRange");
-});
-
-// watch(
-//   () => filters.value?.name,
-//   (newV) => {
-//     get();
-//   }
-// );
 </script>
 
 <style lang="scss" scoped>

@@ -14,6 +14,11 @@
           v-model="state.price"
           :error="v.$errors?.find((i) => i.$property === 'price')?.$message"
         />
+        <FormDatepicker
+          label="Дата"
+          v-model="state.date"
+          :error="v.$errors?.find((i) => i.$property === 'date')?.$message"
+        />
         <FormField
           label="Название"
           v-model="state.title"
@@ -58,6 +63,7 @@ interface ITodoMutation {
   title: string | null;
   description?: string | null;
   price: number | null;
+  date: any;
   categoryId: number | null;
 }
 
@@ -66,6 +72,7 @@ const state = ref<ITodoMutation>({
   title: null,
   description: null,
   price: 42312,
+  date: new Date(),
   categoryId: null,
 });
 

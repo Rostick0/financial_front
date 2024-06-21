@@ -24,6 +24,14 @@
   row-gap: 6px;
 }
 
+.input {
+  background-color: var(--header-background);
+  color: var(--color-white);
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 12px;
+}
+
 .error {
   color: var(--color-red);
   font-size: 15px;

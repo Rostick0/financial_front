@@ -1,4 +1,4 @@
-export type initialFiltersItem = Record<string, string> | undefined;
+export type initialFiltersItem = Record<string, any> | undefined;
 
 export interface useFilterArguments {
   initialFilters?: initialFiltersItem;
