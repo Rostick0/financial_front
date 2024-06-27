@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import moment from "moment";
-import type { IUser } from "~/composables/useAuth";
 import type { TypeCategory } from "~/interfaces/models/category";
 import type { ITodoPeriodView } from "~/interfaces/models/todo";
 

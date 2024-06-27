@@ -16,6 +16,21 @@ function useForm<
 ) {
   const v = useVuelidate(validationsArgs, state, globalConfig);
 
+  watch(
+    () => v.value.$errors?.length,
+    (errorsLength) => {
+      // v.value.$errors
+      if (!errorsLength) return;
+
+      v.value.$errors?.forEach((item) => {
+        // if (errors.value.find((errorItem) => errorItem[item.$property])) return;
+        // if (v.value.$e)
+        // errors.value.set(item.$property, item.$message);
+        // errors.value.set[item.$property] = item.$message;
+      });
+    }
+  );
+
   const handleSubmit = (
     successFunction: Function,
     errorFunction?: Function

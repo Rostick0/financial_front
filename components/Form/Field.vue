@@ -23,8 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { MaskTokens } from "maska";
-
 const emits = defineEmits(["update:modelValue"]);
 
 const props = defineProps<{
@@ -35,7 +33,7 @@ const props = defineProps<{
   maskaTokens?: string;
   maskaReversed?: boolean;
 }>();
-console.log(props.modelValue);
+
 const handleInput = (e: Event) => {
   const target = e.target as HTMLInputElement;
 

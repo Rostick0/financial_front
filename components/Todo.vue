@@ -7,7 +7,7 @@
     <div class="todo__title">
       {{ todo?.category?.title }}
     </div>
-    <div class="todo__price">
+    <div class="todo__sum">
       {{ sum }}
     </div>
   </div>
@@ -41,7 +41,7 @@ const sum = computed(() => props.todo.sum?.toLocaleString());
     font-size: 18px;
   }
 
-  &__price {
+  &__sum {
     margin-left: auto;
   }
 }
