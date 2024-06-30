@@ -8,7 +8,7 @@
       v-bind="$attrs"
       class="field__input input"
       @input="handleInput"
-      type="text"
+      :type="type ?? 'text'"
       :value="modelValue"
       v-maska
       :data-maska="maska"
@@ -29,6 +29,7 @@ const props = defineProps<{
   label?: string;
   error?: Ref<string> | string;
   modelValue?: any;
+  type?: "text" | "number" | "tel" | "email";
   maska?: string;
   maskaTokens?: string;
   maskaReversed?: boolean;

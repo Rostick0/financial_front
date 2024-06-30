@@ -6,12 +6,15 @@ export default <apiMethods>{
   // delete: async ({ id, params }) => useFetcher().delete(`/Todo/${id}`, params),
   // update: async ({ id, data, params }) =>
   //   useFetcher().patch(`/Todo/${id}`, data, params),
-  getAll: async ({
-    params,
-    type = "",
-  }: {
-    params?: any;
-    type: "Period" | "";
-  }) => useFetcher().get(`/Todo${type ? "/" + type : ""}`, params),
+  getAll: async (
+    {
+      params,
+      type = "",
+    }: {
+      params?: any;
+      type: "Period" | "";
+    },
+    headers?: any
+  ) => useFetcher().get(`/Todo${type ? "/" + type : ""}`, params, headers),
   create: async ({ data }) => useFetcher().post(`/Todo`, data),
 };

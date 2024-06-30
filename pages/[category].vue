@@ -7,9 +7,8 @@
     </template>
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
-      <LazyMainChart :data="data" />
       <Todos :todos="data" />
-      <LazyBtnAdd class="button-bottom-add" to="/todos/create" />
+      <LazyBtnAdd link="/todos/create" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
@@ -37,10 +36,6 @@ const mainDateRange = useState<[string, string]>("mainDateRange", () => [
   getDate(moment().endOf("week").toDate()),
 ]);
 
-// onBeforeUnmount(() => {
-//   clearNuxtState("mainDateRange");
-// });
-
 watch(
   () => mainDateRange.value,
   (newV) => {
@@ -56,7 +51,6 @@ const { filters, urlSerachParams, resetFilterValues } = useFilter<{
   MaxDate: Date;
 }>({
   initialFilters: {
-    // name: "123",
     TypeCategory: switchHeaderMain.value,
     MinDate: mainDateRange.value[0],
     MaxDate: mainDateRange.value[1],
@@ -76,7 +70,6 @@ const { data, get } = await useApi<ITodoPeriodView>({
   apiName: "todos",
   apiMethod: "getAll",
   filters,
-  params: { type: "Period" },
 });
 
 await get();

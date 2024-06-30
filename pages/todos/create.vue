@@ -24,6 +24,7 @@
           v-model="state.categoryId"
           :type="EnumCategoryType[state.type]"
         />
+        <!-- <input @change="(e) => (state.img = e.target?.files)" type="file" /> -->
         <UiButton class="todo-mutation__btn">Сохранить</UiButton>
       </form>
     </div>
@@ -33,9 +34,11 @@
 <script lang="ts" setup>
 // import formLite from "~/composables/useMyForm";
 import formLite from "vue-form-lite";
+// import {} from 'vue-form-lite/src/ru
+// import required from "vue-form-lite/src/rules/required.ts";
 
 import type { ErrorObject } from "@vuelidate/core";
-import { required, minValue } from "@vuelidate/validators";
+import { minValue, email } from "@vuelidate/validators";
 import moment from "moment";
 import api from "~/api";
 import type { TypeCategory } from "~/interfaces/models/category";
@@ -48,6 +51,8 @@ import { EnumCategoryType } from "~/interfaces/models/category";
 //   init: true,
 // });
 
+// minValue(20)
+
 interface ITodoMutation {
   type: TypeCategory;
   title: string | null;
@@ -55,6 +60,7 @@ interface ITodoMutation {
   sum: string | null;
   date: any;
   categoryId: number | null;
+  img?: any;
 }
 
 const state = ref<ITodoMutation>({
@@ -64,84 +70,74 @@ const state = ref<ITodoMutation>({
   sum: 42312 + "",
   date: new Date(),
   categoryId: null,
+  img: null,
 });
 
-const rules = {
-  type: {},
-  title: {
-    // api: () => true,
-  },
-  description: {},
-  sum: {
-    required,
-    minValue: minValue(10),
-  },
-  date: {},
-  categoryId: {},
-  //   email: {
-  //     email,
-  //   },
-};
-// const { v, handleSubmit } = useForm(rules, state);
+function required(val: any) {
+  let empty = false;
 
-const aboba = (a: any) => {
-  return (val: any) => (val ? true : "Абоба");
+  if (isObject(val)) {
+    if (isEmpty(val)) empty = true;
+  } else if (Array.isArray(val)) {
+    if (val?.length === 0) empty = true;
+  } else if ([undefined, null, ""].find((el) => val === el) !== undefined) {
+    empty = true;
+  }
+
+  return !empty;
+}
+
+function between(min: any, max: any) {
+  return (val: any) => val >= min && val <= max;
+}
+
+const withMessage = (rule: Function, message: string) => {
+  return (val: any) => {
+    return rule(val) ? true : message;
+  };
 };
 
-const { errors, handleSubmit } = formLite({
+const {
+  errors,
+  handleSubmit,
+  setError,
+  setErrors,
+  $valid,
+  clearError,
+  clearErrors,
+} = formLite({
   state,
   rules: {
     sum: {
-      required: aboba(20),
+      // required: withMessage(required, 'aboba'),
+      // required,
+      // between: between(1, 6),
     },
   },
 });
 
-const onSubmit = handleSubmit(async (val: ITodoMutation) => {
-  console.log(val);
+const onSubmit = handleSubmit(async (values: ITodoMutation) => {
+  const { sum, date, ...other } = values;
+
+  const res = await api.todos.create({
+    data: {
+      sum: sum?.replace(/ /g, ""),
+      date: getDate(date),
+      ...other,
+    },
+  });
+
+  if (res?.isError) {
+    console.log(5);
+    setErrors(res?.errorResponse?.data?.errors);
+    // warningPopup(res?.errorResponse?.data?.title);
+    return;
+  }
+
+  nextTick(() => {
+    navigateTo("/");
+  });
 });
-
-// console.log(v);
-// const onSubmit = handleSubmit(
-//   lodashDebounce(async (values: Ref<ITodoMutation>) => {
-//     const { sum, date, ...other } = values.value;
-
-//     const res = await api.todos.create({
-//       data: {
-//         sum: sum?.replace(/ /g, ""),
-//         // date: moment(date).toISOString().split("T")[0],
-//         ...other,
-//       },
-//     });
-
-//     if (res?.isError) {
-//       console.log(5);
-//       // warningPopup(res?.errorResponse?.data?.title);
-//       return;
-//     }
-
-//     // v.value.$validate()
-//   }, 400),
-//   (values: ITodoMutation, errors: ErrorObject[]) => {
-//     console.log(v.value.$errors);
-
-//     v.value.$errors.push({
-//       $propertyPath: "title",
-//       $property: "title",
-//       $validator: "api",
-//       $uid: "title-api",
-//       $message: "Value is required",
-//       $params: {
-//         type: "api",
-//       },
-//       $response: false,
-//       $pending: false,
-//     } as ErrorObject);
-
-//     // v.value.$errors.filter((item) => item.$uid.endsWith("-api"));
-//     // console.log((v.value.title.$externalResults));
-//   }
-// );
 </script>
 
 <style lang="scss" scoped>

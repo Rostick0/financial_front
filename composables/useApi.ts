@@ -9,7 +9,7 @@ interface iUseApi {
   // name: `${keyof typeof users}`;
   // ${keyof typeApi}.
   apiName: keyof typeApi;
-  apiMethod: keyof apiMethods;
+  apiMethod: "get" | "getAll";
   params?: object;
   filters?: globalThis.Ref<initialFiltersItem>;
   //   unwatchedFilters = {},
@@ -21,6 +21,8 @@ interface iUseApi {
   //   initialValue = null,
   afterInit?: Function;
   popup?: boolean;
+  withCache?: boolean;
+  cacheDataLimit?: number;
 }
 
 export default async <T>({
@@ -37,21 +39,27 @@ export default async <T>({
   //   initialValue = null,
   afterInit = () => {},
   popup = true,
+  withCache = true,
+  cacheDataLimit = 20,
 }: iUseApi) => {
   const id = lodashUniqueId();
   const data = useState<T[] | null>(`data-${id}`, () => null);
   const isLoading = useState<boolean | null>(`loading-${id}`, () => null);
   const error = useState(`error-${id}`, () => false);
   const meta = useState(`meta-${id}`, () => []);
+  const cache = useState<
+    {
+      params: string;
+      data: T[];
+      meta: any;
+    }[]
+  >(`cache-${id}`, () => []);
 
   const get = async (
     rParams: object = {},
     filter: object = {}
   ): Promise<void> => {
     try {
-      if (isLoading.value === false) return;
-      isLoading.value = false;
-
       const preParams = {
         // ...requestParams,
         ...rParams,
@@ -62,10 +70,25 @@ export default async <T>({
           ...filter,
           // signal: signal.value,
         },
-      } as { headers?: HeadersInit; params: any };
+      } as { headers?: any; params: any };
       if (headers) {
         preParams.headers = headers;
       }
+
+      if (withCache) {
+        const cacheValue = cache.value.find(
+          (item) => item.params === JSON.stringify(preParams)
+        );
+
+        if (cacheValue) {
+          data.value = cacheValue.data;
+          meta.value = cacheValue.meta;
+          return;
+        }
+      }
+
+      if (isLoading.value === false) return;
+      isLoading.value = false;
 
       await api?.[apiName]?.[apiMethod]?.(preParams, headers)?.then(
         async (res: any) => {
@@ -73,6 +96,17 @@ export default async <T>({
 
           data.value = dataLocal;
           meta.value = other;
+
+          if (withCache) {
+            cache.value = [
+              ...cache.value,
+              {
+                params: JSON.stringify(preParams),
+                data: dataLocal,
+                meta: other,
+              },
+            ];
+          }
         }
       );
 
@@ -83,12 +117,23 @@ export default async <T>({
     }
   };
 
+  if (withCache) {
+    watch(
+      () => cache.value.length,
+      (nV) => {
+        if (nV > cacheDataLimit) {
+          cache.value = cache.value.slice(nV - cacheDataLimit);
+        }
+      }
+    );
+  }
+
   onMounted(() => {
     if (isReactive(filters?.value)) {
       watch(
         [() => filters?.value],
         async () => {
-          await get({ ...params, ...filters });
+          await get({}, { ...params, ...filters?.value });
         },
         { deep: true }
       );
@@ -97,7 +142,7 @@ export default async <T>({
 
   if (init) {
     onMounted(async () => {
-      await get({ ...params, ...filters });
+      await get({}, { ...params, ...filters?.value });
     });
   }
 
