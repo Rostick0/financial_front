@@ -32,7 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-// import formLite from "~/composables/useMyForm";
 import formLite from "vue-form-lite";
 // import {} from 'vue-form-lite/src/ru
 // import required from "vue-form-lite/src/rules/required.ts";

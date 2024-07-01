@@ -13,7 +13,7 @@ interface iUseApi {
   params?: object;
   filters?: globalThis.Ref<initialFiltersItem>;
   //   unwatchedFilters = {},
-  //   requestParams = {},
+  requestParams?: any;
   //   callback = null,
   init?: boolean;
   afterCallback?: Function;
@@ -31,7 +31,7 @@ export default async <T>({
   params = {},
   filters,
   //   unwatchedFilters = {},
-  //   requestParams = {},
+  requestParams = {},
   //   callback = null,
   init = false,
   afterCallback = () => {},
@@ -61,7 +61,7 @@ export default async <T>({
   ): Promise<void> => {
     try {
       const preParams = {
-        // ...requestParams,
+        ...requestParams,
         ...rParams,
         params: {
           ...params,
@@ -74,6 +74,7 @@ export default async <T>({
       if (headers) {
         preParams.headers = headers;
       }
+      console.log(cache.value);
 
       if (withCache) {
         const cacheValue = cache.value.find(

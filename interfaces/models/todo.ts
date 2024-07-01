@@ -6,6 +6,7 @@ export interface ITodoView extends IUserBelongWithDateModel {
   title: string;
   description?: string;
   sum: number;
+  date: Date;
   categoryId: number;
   category: ICategoryView | null;
 }

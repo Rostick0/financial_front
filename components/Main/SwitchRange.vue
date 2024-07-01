@@ -48,7 +48,7 @@ const { open } = useModal({
   name: nameModal,
 });
 
-const mainDateRange = useState<[Date, Date | null]>("mainDateRange");
+const mainDateRange = useState<[string, string]>("mainDateRange");
 
 const currentRange = computed(() => {
   const startRange = new Date(mainDateRange.value[0]).toLocaleDateString();

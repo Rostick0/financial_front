@@ -1,14 +1,32 @@
 <template>
   <div class="todos">
-    <Todo class="todo" v-for="todo in todos" :key="todo.id" :todo="todo" />
+    <template v-if="type === 'category'">
+      <TodoCategory
+        class="todo"
+        v-for="todo in todos"
+        :key="todo.id"
+        :todo="todo"
+      />
+    </template>
+    <template v-else>
+      <TodoDefault
+        class="todo"
+        v-for="(todo, index) in todos"
+        :key="todo.id"
+        :todo="todo"
+        :isDifferentDates="todo.date !== todos?.[index - 1]?.date"
+      />
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { ITodoPeriodView, ITodoView } from "~/interfaces/models/todo";
 
+const emits = defineEmits(["clickTodo"]);
 const props = defineProps<{
   todos: (ITodoView | ITodoPeriodView)[] | null;
+  type?: "category";
 }>();
 </script>
 

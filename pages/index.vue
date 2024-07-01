@@ -8,7 +8,7 @@
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
       <LazyMainChart :data="data" />
-      <Todos :todos="data" />
+      <Todos :todos="data" type="category" />
       <LazyBtnAdd class="button-bottom-add" to="/todos/create" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
@@ -58,8 +58,8 @@ const { filters, urlSerachParams, resetFilterValues } = useFilter<{
   initialFilters: {
     // name: "123",
     TypeCategory: switchHeaderMain.value,
-    MinDate: mainDateRange.value[0],
-    MaxDate: mainDateRange.value[1],
+    MinDate: getDate(mainDateRange.value[0]),
+    MaxDate: getDate(mainDateRange.value[1]),
   },
 });
 
@@ -76,10 +76,13 @@ const { data, get } = await useApi<ITodoPeriodView>({
   apiName: "todos",
   apiMethod: "getAll",
   filters,
-  params: { type: "Period" },
+  requestParams: { type: "Period" },
 });
 
 await get();
+
+const redirectLink = (todo: ITodoPeriodView) =>
+  navigateTo(`/category/${todo.categoryId}`);
 </script>
 
 <style lang="scss" scoped>
@@ -87,37 +90,5 @@ await get();
   // &-header {
 
   // }
-}
-
-.button-bottom-add {
-  display: flex;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-
-  &__inner {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 32px;
-    height: 32px;
-
-    &::before,
-    &::after {
-      background-color: var(--color-white);
-      border-radius: 2px;
-      content: "";
-      display: block;
-      position: absolute;
-      width: calc(100% - 16px);
-      height: 2px;
-    }
-
-    &::before {
-      transform: rotate(90deg);
-    }
-  }
 }
 </style>
