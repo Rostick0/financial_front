@@ -39,7 +39,7 @@ export default async <T>({
   //   initialValue = null,
   afterInit = () => {},
   popup = true,
-  withCache = true,
+  withCache = false,
   cacheDataLimit = 20,
 }: iUseApi) => {
   const id = lodashUniqueId();
@@ -74,7 +74,6 @@ export default async <T>({
       if (headers) {
         preParams.headers = headers;
       }
-      console.log(cache.value);
 
       if (withCache) {
         const cacheValue = cache.value.find(
@@ -95,10 +94,10 @@ export default async <T>({
         async (res: any) => {
           const { data: dataLocal, ...other } = res;
 
-          data.value = dataLocal;
+          data.value = dataLocal ?? res;
           meta.value = other;
 
-          if (withCache) {
+          if (withCache && other) {
             cache.value = [
               ...cache.value,
               {

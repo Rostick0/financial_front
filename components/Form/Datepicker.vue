@@ -4,27 +4,14 @@
     <template v-else-if="$slots.label">
       <slot name="label"></slot>
     </template>
-    <!-- @input="handleInput" -->
-    <!-- <input
-      v-bind="$attrs"
-      class="datepicker__input input"
-      type="text"
-      :value="modelValue"
-      readonly
-      :modelValue="modelValue"
-      format="MM/dd/yyyy"
-    /> -->
     <Datepicker
       dark
-      
+      format="dd-MM-yyyy"
       :modelValue="modelValue"
       @update:model-value="(val) => emits('update:modelValue', val)"
       :enableTimePicker="false"
     />
   </div>
-  <!-- v-model="mainDateRange" -->
-  <!-- @update:model-value="close" format="MM/dd/yyyy" -->
-  <!-- inline -->
   <div v-if="error" class="datepicker__error error">{{ error }}</div>
   <template v-else-if="$slots.label">
     <slot name="error"></slot>

@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink v-if="link" class="button-bottom-add" :to="link">
+  <NuxtLink v-if="to" class="button-bottom-add" :to="to">
     <UiButton class="button-bottom-add__inner"></UiButton>
   </NuxtLink>
   <span v-else class="button-bottom-add">
@@ -11,7 +11,7 @@
 import type { RouteLocationRaw } from "vue-router";
 
 const props = defineProps<{
-  link?: RouteLocationRaw;
+  to?: RouteLocationRaw;
 }>();
 </script>
 

@@ -3,9 +3,9 @@ import type { apiMethods } from "../index";
 
 export default <apiMethods>{
   get: async ({ id, params }) => useFetcher().get(`/Todo/${id}`, params),
-  // delete: async ({ id, params }) => useFetcher().delete(`/Todo/${id}`, params),
-  // update: async ({ id, data, params }) =>
-  //   useFetcher().patch(`/Todo/${id}`, data, params),
+  delete: async ({ id, params }) => useFetcher().delete(`/Todo/${id}`, params),
+  update: async ({ id, data, params }) =>
+    useFetcher().patch(`/Todo/${id}`, data, params),
   getAll: async (
     {
       params,

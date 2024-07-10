@@ -23,14 +23,6 @@ import type { TypeCategory } from "~/interfaces/models/category";
 import type { ITodoPeriodView } from "~/interfaces/models/todo";
 
 const nameModal = "switchDatapicker";
-useHead({
-  title: "Главная",
-});
-
-const switchHeaderMain = useState<TypeCategory>(
-  "switchHeaderMain",
-  () => (useRoute().query?.TypeCategory as TypeCategory) ?? "Expenses"
-);
 
 const mainDateRange = useState<[string, string]>("mainDateRange", () => [
   getDate(moment().startOf("week").toDate()),
@@ -48,6 +40,11 @@ watch(
     if (filters.value?.MaxDate && newV?.[1])
       filters.value.MaxDate = getDate(newV?.[1]);
   }
+);
+
+const switchHeaderMain = useState<TypeCategory>(
+  "switchHeaderMain",
+  () => (useRoute().query?.TypeCategory as TypeCategory) ?? "Expenses"
 );
 
 const { filters, urlSerachParams, resetFilterValues } = useFilter<{
@@ -77,12 +74,14 @@ const { data, get } = await useApi<ITodoPeriodView>({
   apiMethod: "getAll",
   filters,
   requestParams: { type: "Period" },
+  withCache: true
 });
 
 await get();
 
-const redirectLink = (todo: ITodoPeriodView) =>
-  navigateTo(`/category/${todo.categoryId}`);
+useHead({
+  title: "Главная",
+});
 </script>
 
 <style lang="scss" scoped>

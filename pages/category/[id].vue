@@ -8,7 +8,7 @@
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
       <Todos :todos="data" />
-      <LazyBtnAdd link="/todos/create" />
+      <LazyBtnAdd to="/todos/create" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />
       </LazyUiModal>
@@ -76,6 +76,7 @@ const { data, get } = await useApi<ITodoPeriodView>({
   params: {
     categoryId: route.params.id,
   },
+  withCache: true,
 });
 
 await get();

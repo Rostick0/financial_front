@@ -4,7 +4,7 @@
       <HeaderMain />
     </template>
     <div class="container">
-      <TodoFormCreate />
+      <TodoFormUpdate />
     </div>
   </NuxtLayout>
 </template>

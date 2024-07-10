@@ -2,7 +2,7 @@
   <div v-if="isDifferentDates">
     {{ showDate }}
   </div>
-  <div class="todo">
+  <NuxtLink class="todo" :to="`/todos/${todo.id}`">
     <div
       class="todo__icon"
       :style="{ backgroundColor: todo.category?.color }"
@@ -13,7 +13,7 @@
     <div class="todo__sum">
       {{ sum }}
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>

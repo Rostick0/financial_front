@@ -1,0 +1,22 @@
+.todo-mutation {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  // &__sum {
+
+  //   &_inpu {
+
+  //   }
+  // }
+
+  &__type {
+    justify-content: center;
+  }
+
+  &__btn {
+    margin: 0 auto;
+    position: sticky;
+    bottom: 16px;
+  }
+}
