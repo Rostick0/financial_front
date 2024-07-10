@@ -12,7 +12,7 @@
         @click="selectedId = item.id"
         :style="{ '--ui-color': item.color }"
       >
-        <div class="categories-select__icon"></div>
+        <UiIcon :color="item.color" />
         <div class="categories-select__title">{{ item.title }}</div>
       </div>
     </div>
@@ -86,13 +86,13 @@ watch(
     }
   }
 
-  &__icon {
-    background-color: var(--ui-color);
-    border-radius: 50%;
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-  }
+  // &__icon {
+  //   background-color: var(--ui-color);
+  //   border-radius: 50%;
+  //   flex-shrink: 0;
+  //   width: 16px;
+  //   height: 16px;
+  // }
 
   &__title {
     font-size: 15px;

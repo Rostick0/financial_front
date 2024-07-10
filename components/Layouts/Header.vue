@@ -37,6 +37,7 @@ const { open } = useModal({ name: "main-menu" });
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
+    padding: 6px;
     width: 32px;
     height: 32px;
 

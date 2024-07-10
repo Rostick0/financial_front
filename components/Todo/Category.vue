@@ -1,9 +1,6 @@
 <template>
   <NuxtLink class="todo" :to="`/category/${todo.categoryId}`">
-    <div
-      class="todo__icon"
-      :style="{ backgroundColor: todo.category?.color }"
-    ></div>
+    <UiIcon class="todo__icon" :color="todo.category?.color" />
     <div class="todo__title">
       {{ todo?.category?.title }}
     </div>
@@ -24,5 +21,5 @@ const sum = computed(() => props.todo.sum?.toLocaleString());
 </script>
 
 <style lang="scss" scoped>
-@import './../../assets/scss/components/todo.scss';
+@import "./../../assets/scss/components/todo.scss";
 </style>

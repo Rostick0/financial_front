@@ -1,10 +1,17 @@
 <template>
-  <button class="btn">
+  <button
+    class="btn"
+    :class="[color]"
+  >
     <slot />
   </button>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const props = defineProps<{
+  color?: "red";
+}>();
+</script>
 
 <style lang="scss" scoped>
 .btn {
@@ -12,6 +19,10 @@
   color: var(--color-white);
   border-radius: 6px;
   display: flex;
-  padding: 6px;
+  padding: 6px 12px;
+
+  &.red {
+    background-color: var(--color-red);
+  }
 }
 </style>

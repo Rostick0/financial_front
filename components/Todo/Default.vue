@@ -3,10 +3,8 @@
     {{ showDate }}
   </div>
   <NuxtLink class="todo" :to="`/todos/${todo.id}`">
-    <div
-      class="todo__icon"
-      :style="{ backgroundColor: todo.category?.color }"
-    ></div>
+    <UiIcon class="todo__icon" :color="todo.category?.color" />
+
     <div class="todo__title">
       {{ todo?.title }}
     </div>
