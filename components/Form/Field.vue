@@ -29,7 +29,7 @@ const props = defineProps<{
   label?: string;
   error?: Ref<string> | string;
   modelValue?: any;
-  type?: "text" | "number" | "tel" | "email";
+  type?: "text" | "number" | "tel" | "email" | "password";
   maska?: string;
   maskaTokens?: string;
   maskaReversed?: boolean;

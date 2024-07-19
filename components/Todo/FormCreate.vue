@@ -36,6 +36,8 @@ import api from "~/api";
 import { EnumCategoryType } from "~/interfaces/models/category";
 import type { ITodoMutation } from "~/interfaces/models/todo";
 
+const user = useState<IUser>("user");
+
 const state = ref<ITodoMutation>({
   type: "Expenses",
   title: null,
@@ -72,10 +74,11 @@ const { errors, handleSubmit, setErrors } = formLite({
 
 const onSubmit = handleSubmit(async (values: ITodoMutation) => {
   const { sum, date, ...other } = values;
+  const sumNum = parseFloat(sum?.replace(/ /g, "") as string);
 
   const res = await api.todos.create?.({
     data: {
-      sum: sum?.replace(/ /g, ""),
+      sum: sumNum,
       date: getDate(date),
       ...other,
     },
@@ -86,6 +89,8 @@ const onSubmit = handleSubmit(async (values: ITodoMutation) => {
     // warningPopup(res?.errorResponse?.data?.title);
     return;
   }
+
+  user.value.balance += values.type === "Expenses" ? sumNum * -1 : sumNum;
 
   nextTick(() => {
     navigateTo("/");

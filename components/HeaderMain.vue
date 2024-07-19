@@ -1,7 +1,7 @@
 <template>
   <div class="header-main">
     <span>Итого:</span>
-    <strong>{{ user?.balance ?? 0 }}</strong>
+    <strong>{{ user?.balance?.toLocaleString() ?? 0 }}</strong>
     <slot></slot>
   </div>
 </template>

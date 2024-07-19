@@ -33,6 +33,27 @@
   padding: 12px;
 }
 
+.link {
+  color: var(--color-white);
+  display: inline-flex;
+  flex-direction: column;
+
+  &::after {
+    background-color: var(--color-white);
+    content: "";
+    display: inline-block;
+    transition: 0.3s;
+    width: 0;
+    height: 2px;
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
 .error {
   color: var(--color-red);
   font-size: 15px;

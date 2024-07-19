@@ -3,7 +3,7 @@ export default {
   devtools: { enabled: true },
   app: {
     head: {
-      title: "Мои финансы",
+      title: "Мои финансовик",
       htmlAttrs: {
         lang: "ru-RU",
       },
@@ -42,8 +42,8 @@ export default {
 
   pwa: {
     manifest: {
-      name: "My Finance",
-      short_name: "Finance",
+      name: "Мои финансовик",
+      short_name: "Мои финансовик",
       description: "An application for monitoring your financial",
       theme_color: "black",
       lang: "ru-RU",

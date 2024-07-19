@@ -29,7 +29,7 @@ export default async () => {
       const resp = await auth.login(data);
       // if (resp?.error) resp?.popup();
       if (resp?.error) {
-        return resp?.errorResponse?.data?.errors;
+        return resp?.errorResponse?.data;
       }
 
       setUser(resp);
@@ -47,7 +47,7 @@ export default async () => {
       const resp = await auth.register(data);
       // if (resp?.error) resp?.popup();
       if (resp?.error) {
-        return resp?.errorResponse?.data?.errors;
+        return resp?.errorResponse?.data;
       }
 
       setUser(resp);

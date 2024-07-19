@@ -39,6 +39,8 @@ import {
 } from "~/interfaces/models/category";
 import type { ITodoMutation, ITodoView } from "~/interfaces/models/todo";
 
+const user = useState<IUser>("user");
+
 const route = useRoute();
 const id = route.params.id as string;
 
@@ -90,12 +92,12 @@ const {
 
 const onSubmit = handleSubmit(async (values: ITodoMutation) => {
   const { sum, date, ...other } = values;
+  const sumNum = parseFloat(sum?.replace(/ /g, "") as string);
 
-  console.log(values);
   const res = await api.todos.update?.({
     id,
     data: {
-      sum: sum?.replace(/ /g, ""),
+      sum: sumNum,
       date: getDate(date),
       ...other,
     },
@@ -106,6 +108,16 @@ const onSubmit = handleSubmit(async (values: ITodoMutation) => {
     warningPopup(res?.errorResponse?.data?.title);
     return;
   }
+
+  const sumOldNum = parseFloat(
+    data.sum.toString()?.replace(/ /g, "") as string
+  );
+
+  user.value.balance +=
+    ((EnumCategoryType[data.category?.type as number] as TypeCategory) ===
+    "Expenses"
+      ? sumOldNum
+      : sumOldNum * -1) + (values.type === "Expenses" ? sumNum * -1 : sumNum);
 
   nextTick(() => {
     navigateTo("/");

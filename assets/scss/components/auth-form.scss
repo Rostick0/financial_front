@@ -1,0 +1,25 @@
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 228px;
+
+  &__error {
+    margin: -20px 0 10px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+  }
+
+  &__btn {
+    justify-content: center;
+    margin: 20px 0 10px;
+  }
+
+  &__link {
+    font-size: 14px;
+  }
+}
