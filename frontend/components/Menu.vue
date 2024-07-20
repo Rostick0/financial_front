@@ -10,7 +10,7 @@
             :to="item.link"
             class="menu__item"
           >
-            <template v-html="item.icon"></template>
+            <span class="menu__item_icon" v-html="item.icon"></span>
             <span>{{ item.name }}</span>
           </NuxtLink>
 
@@ -53,11 +53,11 @@ const menuList = [
     link: "/",
     name: "Главная",
   },
-  {
-    icon: `<svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6.5" stroke="#fff" /><circle cx="8" cy="8" r="2.5" stroke="#fff" /><path fill="#fff" d="M5.2 7.5v1H0v-1zM16 7.5v1h-5.2v-1zM7.5 0h1v5.2h-1zM7.5 10.8h1V16h-1zM13.303 1.99l.707.707-3.674 3.673-.707-.707zM5.668 9.625l.707.707-3.678 3.679-.707-.708zM10.334 9.627l3.676 3.676-.707.707-3.676-3.676zM2.697 1.99l3.677 3.677-.708.707L1.99 2.697zM10.6.418l.924.383-.46 1.109-.923-.383zM15.2 4.477l.382.924-1.109.46-.382-.925zM15.582 10.599l-.383.924-1.108-.46.382-.923zM11.524 15.2l-.924.382-.46-1.109.924-.382zM5.4 15.583l-.924-.383.46-1.109.923.383zM.8 11.524.417 10.6l1.109-.46.383.925zM.417 5.4.8 4.476l1.109.46-.383.923zM4.477.8 5.4.417l.459 1.109-.924.383z" /></svg>`,
-    link: "/settings",
-    name: "Настройки",
-  },
+  // {
+  //   icon: `<svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6.5" stroke="#fff" /><circle cx="8" cy="8" r="2.5" stroke="#fff" /><path fill="#fff" d="M5.2 7.5v1H0v-1zM16 7.5v1h-5.2v-1zM7.5 0h1v5.2h-1zM7.5 10.8h1V16h-1zM13.303 1.99l.707.707-3.674 3.673-.707-.707zM5.668 9.625l.707.707-3.678 3.679-.707-.708zM10.334 9.627l3.676 3.676-.707.707-3.676-3.676zM2.697 1.99l3.677 3.677-.708.707L1.99 2.697zM10.6.418l.924.383-.46 1.109-.923-.383zM15.2 4.477l.382.924-1.109.46-.382-.925zM15.582 10.599l-.383.924-1.108-.46.382-.923zM11.524 15.2l-.924.382-.46-1.109.924-.382zM5.4 15.583l-.924-.383.46-1.109.923.383zM.8 11.524.417 10.6l1.109-.46.383.925zM.417 5.4.8 4.476l1.109.46-.383.923zM4.477.8 5.4.417l.459 1.109-.924.383z" /></svg>`,
+  //   link: "/settings",
+  //   name: "Настройки",
+  // },
 ];
 
 const { user, logout } = await useAuth();
@@ -109,6 +109,10 @@ const { user, logout } = await useAuth();
     align-items: center;
     column-gap: 8px;
     font-size: 16px;
+
+    &_icon {
+      flex-shrink: 0;
+    }
   }
 }
 

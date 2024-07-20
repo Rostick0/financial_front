@@ -7,7 +7,8 @@
     </template>
     <div class="container">
       <MainSwitchRange :nameModal="nameModal" />
-      <Todos :todos="data" />
+      <Todos v-if="data?.length" :todos="data" />
+      <TodosNone />
       <LazyBtnAdd to="/todos/create" />
       <LazyUiModal :name="nameModal">
         <MainDatapickerRange :nameModal="nameModal" />

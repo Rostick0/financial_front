@@ -36,10 +36,13 @@
           <NuxtLink :to="`/todos/edit-${data.id}`">
             <UiButton>Изменить</UiButton>
           </NuxtLink>
-          <UiButton color="red">Удалить</UiButton>
+          <UiButton @click="open" color="red">Удалить</UiButton>
         </div>
       </div>
     </div>
+    <LazyUiModal :name="nameModal">
+      <LazyConfirmForModal :closeModal="close" @confirm="removeTodo" />
+    </LazyUiModal>
   </NuxtLayout>
 </template>
 
@@ -47,12 +50,31 @@
 import api from "~/api";
 import type { ITodoView } from "~/interfaces/models/todo";
 
+const nameModal = "todoDelete";
+
+const { open, close } = useModal({
+  name: nameModal,
+});
+
 const route = useRoute();
 const id = route.params.id as string;
 
 const data: ITodoView = await api.todos.get?.({ id });
 
 if (!data) navigateTo("/404");
+
+const removeTodo = async () => {
+  const res = await api.todos.delete?.({ id: +id });
+
+  if (res?.isError) {
+    warningPopup(
+      "Произошла ошибка при удалении" ?? res?.errorResponse?.data?.message
+    );
+    return;
+  }
+
+  navigateTo("/category/" + data.categoryId);
+};
 
 useHead({
   title: "Детали операции " + (data?.title ?? `#${id}`),
