@@ -8,6 +8,10 @@
 useHead({
   title: "Настройки",
 });
+
+definePageMeta({
+  middleware: ["auth"],
+});
 </script>
 
 <style></style>

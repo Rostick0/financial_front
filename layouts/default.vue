@@ -9,4 +9,5 @@
       <slot />
     </main>
   </div>
+  <Menu />
 </template>

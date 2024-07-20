@@ -8,14 +8,14 @@
         <FormField
           label="E-mail"
           type="email"
-          v-model="state.email"
-          :error="errors.email"
+          v-model="state.Email"
+          :error="errors.Email"
         />
         <FormField
           label="Пароль"
           type="password"
-          v-model="state.password"
-          :error="errors.password"
+          v-model="state.Password"
+          :error="errors.Password"
         />
       </div>
       <UiButton class="auth-form__btn">Регистрация</UiButton>
@@ -28,31 +28,28 @@
 
 <script lang="ts" setup>
 import formLite from "vue-form-lite";
-import { required, maxLength, email } from "@vue-form-lite/rules";
+import { required, minLength, maxLength, email } from "@vue-form-lite/rules";
 import auth from "~/api/auth";
 import type { IRegister } from "~/interfaces/models/user";
 
 const { register } = await useAuth();
 
-definePageMeta({
-  layout: "auth",
-});
-
 const state = ref<IRegister>({
-  email: "",
-  password: "",
+  Email: "",
+  Password: "",
 });
 
 const { errors, handleSubmit, setErrors } = formLite({
   state,
   rules: {
-    email: {
+    Email: {
       email,
       required,
       maxLength: maxLength(255),
     },
-    password: {
+    Password: {
       required,
+      minLength: minLength(8),
       maxLength: maxLength(255),
     },
   },
@@ -64,10 +61,16 @@ const onSubmit = handleSubmit(async (values: IRegister) => {
   const resErrors = await register(values);
 
   errorMessage.value = resErrors?.message;
+  setErrors(convertValuesToString(resErrors?.errors));
 });
 
 useHead({
   title: "Регистрация",
+});
+
+definePageMeta({
+  layout: "auth",
+  middleware: ["no-auth"],
 });
 </script>
 

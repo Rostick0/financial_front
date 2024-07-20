@@ -92,6 +92,16 @@ export const success = (message: string = "Данные успешно сохр�
   }
 };
 
+export const convertValuesToString = (obj: object) => {
+  const result: Record<string, string> = {};
+
+  Object.keys(obj).forEach((k) => {
+    result[k] = String(obj[k as keyof typeof obj]);
+  });
+
+  return result;
+};
+
 // type checkSavedResp = {
 //   errors?: any[];
 //   error?: string;

@@ -94,15 +94,16 @@ export default async () => {
     }
   };
 
-  if (accessToken.value && !user.value) {
-    await getUser();
-  }
+  // if (accessToken.value && !user.value) {
+  //   await getUser();
+  // }
 
   return {
     accessToken,
     user,
     login,
     register,
+    getUser,
     logout,
   };
 };

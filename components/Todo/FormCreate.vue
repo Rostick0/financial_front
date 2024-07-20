@@ -2,28 +2,28 @@
   <form class="todo-mutation" @submit="onSubmit" method="post">
     <SwitchTypeTodo
       class="todo-mutation__type"
-      v-model="state.type"
-      :error="errors.type"
+      v-model="state.Type"
+      :error="errors.Type"
     />
     <FormField
       label="Сумма (RUB)"
       maska="S SS#"
       maskaTokens="S:[0-9]:repeated"
       maskaReversed
-      v-model="state.sum"
-      :error="errors.sum"
+      v-model="state.Sum"
+      :error="errors.Sum"
     />
-    <FormDatepicker label="Дата" v-model="state.date" :error="errors.date" />
-    <FormField label="Название" v-model="state.title" :error="errors.title" />
+    <FormDatepicker label="Дата" v-model="state.Date" :error="errors.Date" />
+    <FormField label="Название" v-model="state.Title" :error="errors.Title" />
     <FormTextarea
       label="Описание"
-      v-model="state.description"
-      :error="errors.description"
+      v-model="state.Description"
+      :error="errors.Description"
     />
     <FormCategoriesSelect
-      v-model="state.categoryId"
-      :type="EnumCategoryType[state.type]"
-      :error="errors.categoryId"
+      v-model="state.CategoryId"
+      :type="EnumCategoryType[state.Type]"
+      :error="errors.CategoryId"
     />
     <UiButton class="todo-mutation__btn">Сохранить</UiButton>
   </form>
@@ -39,58 +39,58 @@ import type { ITodoMutation } from "~/interfaces/models/todo";
 const user = useState<IUser>("user");
 
 const state = ref<ITodoMutation>({
-  type: "Expenses",
-  title: null,
-  description: null,
-  sum: null,
-  date: new Date(),
-  categoryId: null,
-  img: null,
+  Type: "Expenses",
+  Title: null,
+  Description: null,
+  Sum: null,
+  Date: new Date(),
+  CategoryId: null,
+  // Img: null,
 });
 
 const { errors, handleSubmit, setErrors } = formLite({
   state,
   rules: {
-    type: {
+    Type: {
       required,
     },
-    title: {
+    Title: {
+      maxLength: maxLength(50),
+    },
+    Description: {
       maxLength: maxLength(255),
     },
-    description: {
-      maxLength: maxLength(255),
-    },
-    sum: {
+    Sum: {
       required,
     },
-    date: {
+    Date: {
       required,
     },
-    categoryId: {
+    CategoryId: {
       required,
     },
   },
 });
 
 const onSubmit = handleSubmit(async (values: ITodoMutation) => {
-  const { sum, date, ...other } = values;
+  const { Sum: sum, Date: date, ...other } = values;
   const sumNum = parseFloat(sum?.replace(/ /g, "") as string);
 
   const res = await api.todos.create?.({
     data: {
-      sum: sumNum,
-      date: getDate(date),
+      Sum: sumNum,
+      Date: getDate(date),
       ...other,
     },
   });
 
   if (res?.isError) {
-    setErrors(res?.errorResponse?.data?.errors);
+    setErrors(convertValuesToString(res?.errorResponse?.data?.errors));
     // warningPopup(res?.errorResponse?.data?.title);
     return;
   }
 
-  user.value.balance += values.type === "Expenses" ? sumNum * -1 : sumNum;
+  user.value.balance += values.Type === "Expenses" ? sumNum * -1 : sumNum;
 
   nextTick(() => {
     navigateTo("/");

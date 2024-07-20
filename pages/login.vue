@@ -8,14 +8,14 @@
         <FormField
           label="E-mail"
           type="email"
-          v-model="state.email"
-          :error="errors.email"
+          v-model="state.Email"
+          :error="errors.Email"
         />
         <FormField
           label="Пароль"
           type="password"
-          v-model="state.password"
-          :error="errors.password"
+          v-model="state.Password"
+          :error="errors.Password"
         />
       </div>
       <UiButton class="auth-form__btn">Вход</UiButton>
@@ -31,29 +31,24 @@
 <script lang="ts" setup>
 import formLite from "vue-form-lite";
 import { required, maxLength, email } from "@vue-form-lite/rules";
-import auth from "~/api/auth";
 import type { ILogin } from "~/interfaces/models/user";
-
-definePageMeta({
-  layout: "auth",
-});
 
 const { login } = await useAuth();
 
 const state = ref<ILogin>({
-  email: "",
-  password: "",
+  Email: "",
+  Password: "",
 });
 
 const { errors, handleSubmit, setErrors } = formLite({
   state,
   rules: {
-    email: {
+    Email: {
       email,
       required,
       maxLength: maxLength(255),
     },
-    password: {
+    Password: {
       required,
       maxLength: maxLength(255),
     },
@@ -66,10 +61,16 @@ const onSubmit = handleSubmit(async (values: ILogin) => {
   const resErrors = await login(values);
 
   errorMessage.value = resErrors?.message;
+  setErrors(convertValuesToString(resErrors?.errors));
 });
 
 useHead({
   title: "Вход",
+});
+
+definePageMeta({
+  layout: "auth",
+  middleware: ["no-auth"],
 });
 </script>
 

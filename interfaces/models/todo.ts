@@ -16,11 +16,11 @@ export interface ITodoPeriodView extends ITodoView {
 }
 
 export interface ITodoMutation {
-  type: TypeCategory;
-  title?: string | null;
-  description?: string | null;
-  sum: string | null;
-  date: any;
-  categoryId: number | null;
-  img?: any;
+  Type: TypeCategory;
+  Title?: string | null;
+  Description?: string | null;
+  Sum: string | null;
+  Date: any;
+  CategoryId: number | null;
+  Img?: any;
 }

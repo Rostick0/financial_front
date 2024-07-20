@@ -2,28 +2,28 @@
   <form class="todo-mutation" @submit="onSubmit" method="post">
     <SwitchTypeTodo
       class="todo-mutation__type"
-      v-model="state.type"
-      :error="errors.type"
+      v-model="state.Type"
+      :error="errors.Type"
     />
     <FormField
       label="Сумма (RUB)"
       maska="S SS#"
       maskaTokens="S:[0-9]:repeated"
       maskaReversed
-      v-model="state.sum"
-      :error="errors.sum"
+      v-model="state.Sum"
+      :error="errors.Sum"
     />
-    <FormDatepicker label="Дата" v-model="state.date" :error="errors.date" />
-    <FormField label="Название" v-model="state.title" :error="errors.title" />
+    <FormDatepicker label="Дата" v-model="state.Date" :error="errors.Date" />
+    <FormField label="Название" v-model="state.Title" :error="errors.Title" />
     <FormTextarea
       label="Описание"
-      v-model="state.description"
-      :error="errors.description"
+      v-model="state.Description"
+      :error="errors.Description"
     />
     <FormCategoriesSelect
-      v-model="state.categoryId"
-      :type="EnumCategoryType[state.type]"
-      :error="errors.categoryId"
+      v-model="state.CategoryId"
+      :type="EnumCategoryType[state.Type]"
+      :error="errors.CategoryId"
     />
     <UiButton class="todo-mutation__btn">Сохранить</UiButton>
   </form>
@@ -39,72 +39,61 @@ import {
 } from "~/interfaces/models/category";
 import type { ITodoMutation, ITodoView } from "~/interfaces/models/todo";
 
+const { data } = defineProps<{
+  data: ITodoView;
+}>();
+
 const user = useState<IUser>("user");
 
-const route = useRoute();
-const id = route.params.id as string;
-
-const data: ITodoView = await api.todos.get?.({ id });
-
-if (!data) navigateTo("/404");
-
 const state = ref<ITodoMutation>({
-  type: EnumCategoryType[data.category?.type as number] as TypeCategory,
-  title: data.title,
-  description: data.description,
-  sum: data.sum?.toString(),
-  date: new Date(data.date),
-  categoryId: data.categoryId,
-  // img: null,
+  Type: EnumCategoryType[data.category?.type as number] as TypeCategory,
+  Title: data.title,
+  Description: data.description,
+  Sum: data.sum?.toString(),
+  Date: new Date(data.date),
+  CategoryId: data.categoryId,
+  // Img: null,
 });
 
-const {
-  errors,
-  handleSubmit,
-  setError,
-  setErrors,
-  $valid,
-  clearError,
-  clearErrors,
-} = formLite({
+const { errors, handleSubmit, setErrors, clearErrors } = formLite({
   state,
   rules: {
-    type: {
+    Type: {
       required,
     },
-    title: {
+    Title: {
+      maxLength: maxLength(50),
+    },
+    Description: {
       maxLength: maxLength(255),
     },
-    description: {
-      maxLength: maxLength(255),
-    },
-    sum: {
+    Sum: {
       required,
     },
-    date: {
+    Date: {
       required,
     },
-    categoryId: {
+    CategoryId: {
       required,
     },
   },
 });
 
 const onSubmit = handleSubmit(async (values: ITodoMutation) => {
-  const { sum, date, ...other } = values;
+  const { Sum: sum, Date: date, ...other } = values;
   const sumNum = parseFloat(sum?.replace(/ /g, "") as string);
 
   const res = await api.todos.update?.({
-    id,
+    id: data.id,
     data: {
-      sum: sumNum,
-      date: getDate(date),
+      Sum: sumNum,
+      Date: getDate(date),
       ...other,
     },
   });
 
   if (res?.isError) {
-    setErrors(res?.errorResponse?.data?.errors);
+    setErrors(convertValuesToString(res?.errorResponse?.data?.errors));
     warningPopup(res?.errorResponse?.data?.title);
     return;
   }
@@ -117,7 +106,7 @@ const onSubmit = handleSubmit(async (values: ITodoMutation) => {
     ((EnumCategoryType[data.category?.type as number] as TypeCategory) ===
     "Expenses"
       ? sumOldNum
-      : sumOldNum * -1) + (values.type === "Expenses" ? sumNum * -1 : sumNum);
+      : sumOldNum * -1) + (values.Type === "Expenses" ? sumNum * -1 : sumNum);
 
   nextTick(() => {
     navigateTo("/");

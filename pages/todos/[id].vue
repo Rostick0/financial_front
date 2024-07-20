@@ -53,6 +53,14 @@ const id = route.params.id as string;
 const data: ITodoView = await api.todos.get?.({ id });
 
 if (!data) navigateTo("/404");
+
+useHead({
+  title: "Детали операции " + (data?.title ?? `#${id}`),
+});
+
+definePageMeta({
+  middleware: ["auth"],
+});
 </script>
 
 <style lang="scss" scoped>

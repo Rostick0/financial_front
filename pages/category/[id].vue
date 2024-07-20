@@ -22,9 +22,6 @@ import type { TypeCategory } from "~/interfaces/models/category";
 import type { ITodoPeriodView } from "~/interfaces/models/todo";
 
 const nameModal = "switchDatapicker";
-useHead({
-  title: "Главная",
-});
 
 const switchHeaderMain = useState<TypeCategory>(
   "switchHeaderMain",
@@ -80,12 +77,19 @@ const { data, get } = await useApi<ITodoPeriodView>({
 });
 
 await get();
+
+useHead({
+  title: "Категории",
+});
+definePageMeta({
+  middleware: ["auth"],
+});
 </script>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 .main-page {
   // &-header {
 
   // }
 }
-</style>
+</style> -->

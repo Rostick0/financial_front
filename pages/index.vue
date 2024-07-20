@@ -74,7 +74,7 @@ const { data, get } = await useApi<ITodoPeriodView>({
   apiMethod: "getAll",
   filters,
   requestParams: { type: "Period" },
-  withCache: true
+  withCache: true,
 });
 
 await get();
@@ -82,12 +82,17 @@ await get();
 useHead({
   title: "Главная",
 });
+
+definePageMeta({
+  layout: "default",
+  middleware: ["auth"],
+});
 </script>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 .main-page {
   // &-header {
 
   // }
 }
-</style>
+</style> -->
