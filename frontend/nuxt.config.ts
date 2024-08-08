@@ -23,7 +23,7 @@ export default {
   css: ["~/assets/scss/index.scss"],
 
   build: {
-    transpile: ["@vuepic/vue-datepicker"],
+    transpile: ["@vuepic/vue-datepicker", "vue-toastification"],
   },
 
   modules: ["@vite-pwa/nuxt", "nuxt-lodash"],
